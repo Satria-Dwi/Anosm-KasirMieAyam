@@ -29,36 +29,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ambil data
-        async function loadData() {
-            const querySnapshot = await getDocs(collection(db, "transaksi"));
-
-            let html = "";
-            let totalAll = 0;
-
-            querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                console.log("DATA:", data);
-                totalAll += parseInt(data.total) || 0;
-
-                let items = "";
-                data.items.forEach(i => {
-                    items += `<li>${i.nama} x${i.qty}</li>`;
-                });
-
-                html += `
-        <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-            <b>Rp ${data.total.toLocaleString("id-ID")}</b><br>
-            ${new Date(data.tanggal).toLocaleString("id-ID")}
-            <ul>${items}</ul>
-        </div>
-        `;
-            });
-
-            document.getElementById("list").innerHTML = html;
-            document.getElementById("total").innerText = totalAll.toLocaleString("id-ID");
-        }
-
+        // 🔥 ambil data
         async function loadData() {
             try {
                 const querySnapshot = await getDocs(collection(db, "transaksi"));
@@ -68,15 +39,44 @@
                 let html = "";
                 let totalAll = 0;
 
+                // ❗ kalau kosong
+                if (querySnapshot.empty) {
+                    document.getElementById("list").innerHTML = "❌ Tidak ada transaksi";
+                    document.getElementById("total").innerText = "0";
+                    return;
+                }
+
                 querySnapshot.forEach((doc) => {
                     let data = doc.data();
                     console.log("DATA:", data);
 
-                    totalAll += parseInt(data.total) || 0;
+                    let total = parseInt(data.total) || 0;
+                    totalAll += total;
+
+                    let items = "";
+
+                    // 🔥 aman kalau items tidak ada
+                    if (data.items) {
+                        data.items.forEach(i => {
+                            items += `<li>${i.nama} x${i.qty}</li>`;
+                        });
+                    }
+
+                    html += `
+            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                <b>Rp ${total.toLocaleString("id-ID")}</b><br>
+                ${data.tanggal ? new Date(data.tanggal).toLocaleString("id-ID") : "-"}
+                <ul>${items}</ul>
+            </div>
+            `;
                 });
+
+                document.getElementById("list").innerHTML = html;
+                document.getElementById("total").innerText = totalAll.toLocaleString("id-ID");
 
             } catch (error) {
                 console.error("🔥 ERROR FIREBASE:", error);
+                document.getElementById("list").innerHTML = "❌ Error ambil data";
             }
         }
 
