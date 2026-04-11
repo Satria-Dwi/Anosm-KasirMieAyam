@@ -144,13 +144,19 @@ function prosesBayar() {
     document.getElementById("s-tanggal").innerText = tanggal;
     document.getElementById("s-no").innerText = no;
 
-    simpanTransaksi({
+    addDoc(collection(db, "transaksi"), {
         items: cart,
         total: total,
         bayar: bayar,
         kembali: kembali,
         tanggal: new Date().toISOString()
-    });
+    })
+        .then(() => {
+            console.log("✅ Masuk Firebase");
+        })
+        .catch((err) => {
+            console.error("❌ Gagal:", err);
+        });
 
     setTimeout(() => {
         window.print();
