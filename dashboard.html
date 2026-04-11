@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard Transaksi</title>
+</head>
+
+<body>
+
+    <h2>📊 Dashboard Transaksi</h2>
+
+    <h3>Total Pemasukan: Rp <span id="total">0</span></h3>
+
+    <div id="list"></div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "ISI PUNYAMU",
+            authDomain: "ISI",
+            projectId: "ISI",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ambil data
+        async function loadData() {
+            const querySnapshot = await getDocs(collection(db, "transaksi"));
+
+            let html = "";
+            let totalAll = 0;
+
+            querySnapshot.forEach((doc) => {
+                let data = doc.data();
+                totalAll += data.total;
+
+                let items = "";
+                data.items.forEach(i => {
+                    items += `<li>${i.nama} x${i.qty}</li>`;
+                });
+
+                html += `
+        <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+            <b>Rp ${data.total.toLocaleString("id-ID")}</b><br>
+            ${new Date(data.tanggal).toLocaleString("id-ID")}
+            <ul>${items}</ul>
+        </div>
+        `;
+            });
+
+            document.getElementById("list").innerHTML = html;
+            document.getElementById("total").innerText = totalAll.toLocaleString("id-ID");
+        }
+
+        loadData();
+    </script>
+</body>
+
+</html>

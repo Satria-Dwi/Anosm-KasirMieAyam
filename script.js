@@ -185,4 +185,8 @@ function searchMenu() {
     renderMenu(menu.filter(m => m.nama.toLowerCase().includes(key)));
 }
 
+function bukaDashboard() {
+    window.open("dashboard.html", "_blank");
+}
+
 renderMenu();
