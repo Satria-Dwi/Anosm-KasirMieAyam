@@ -45,18 +45,33 @@ function renderMenu(data = menu) {
 
     let html = "";
 
-    data.forEach((m) => {
+    data.forEach((m, i) => {
         html += `
-        <div class="card" onclick='tambahByName("${m.nama}")'>
-            <img src="${m.img}" onerror="this.src='https://via.placeholder.com/150'">
-            <h4>${m.nama}</h4>
-            <p>Rp ${rupiah(m.harga)}</p>
-        </div>
-        `;
+            <div class="card" onclick='tambah(${i})'>
+                <img src="${m.img}" onerror="this.src='https://via.placeholder.com/150'">
+                <h4>${m.nama}</h4>
+                <p>Rp ${rupiah(m.harga)}</p>
+            </div>
+            `;
     });
 
     container.innerHTML = html;
 }
+
+window.tambahByName = function (nama) {
+    let item = menu.find(m => m.nama === nama);
+    if (!item) return;
+
+    let found = cart.find(c => c.nama === item.nama);
+
+    if (found) {
+        found.qty++;
+    } else {
+        cart.push({ ...item, qty: 1 });
+    }
+
+    renderCart();
+};
 
 // tambah ke cart
 function tambah(i) {
