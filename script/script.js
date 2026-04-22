@@ -216,8 +216,8 @@ function searchMenu() {
 function logout() {
     localStorage.removeItem("isLogin");
     localStorage.removeItem("user"); // kalau kamu pakai user juga
-    window.location.href = "/";
-    // window.location.href = "/Anoms-Transc-KasirMieAyam/";
+    // window.location.href = "/";
+    window.location.href = "/Anoms-Transc-KasirMieAyam/";
 }
 
 window.tambah = tambah;
@@ -230,13 +230,13 @@ window.searchMenu = searchMenu;
 window.logout = logout;
 
 // 🔥 NAV
-// window.bukaHome = () => location.href = "/Anoms-Transc-KasirMieAyam/views/dashboard/";
-// window.bukaHistory = () => location.href = "/Anoms-Transc-KasirMieAyam/views/rekapan/";
-// window.bukaKasir = () => location.href = "/Anoms-Transc-KasirMieAyam/views/kasir/";
+window.bukaHome = () => location.href = "/Anoms-Transc-KasirMieAyam/views/dashboard/";
+window.bukaHistory = () => location.href = "/Anoms-Transc-KasirMieAyam/views/rekapan/";
+window.bukaKasir = () => location.href = "/Anoms-Transc-KasirMieAyam/views/kasir/";
 
-window.bukaHome = () => location.href = "/views/dashboard/";
-window.bukaHistory = () => location.href = "/views/rekapan/";
-window.bukaKasir = () => location.href = "/views/kasir/";
+// window.bukaHome = () => location.href = "/views/dashboard/";
+// window.bukaHistory = () => location.href = "/views/rekapan/";
+// window.bukaKasir = () => location.href = "/views/kasir/";
 
 // 🔥 INIT
 window.onload = () => {
