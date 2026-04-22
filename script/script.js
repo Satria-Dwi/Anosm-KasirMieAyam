@@ -229,13 +229,13 @@ window.searchMenu = searchMenu;
 window.logout = logout;
 
 // 🔥 NAV
-// window.bukaHome = () => location.href = "/Anoms-transac/";
-// window.bukaHistory = () => location.href = "/Anoms-transac/views/rekapan/";
-// window.bukaKasir = () => location.href = "/Anoms-transac/views/kasir/";
+window.bukaHome = () => location.href = "/Anoms-transac/views/dashboard/";
+window.bukaHistory = () => location.href = "/Anoms-transac/views/rekapan/";
+window.bukaKasir = () => location.href = "/Anoms-transac/views/kasir/";
 
-window.bukaHome = () => location.href = "/views/dashboard/";
-window.bukaHistory = () => location.href = "/views/rekapan/";
-window.bukaKasir = () => location.href = "/views/kasir/";
+// window.bukaHome = () => location.href = "/views/dashboard/";
+// window.bukaHistory = () => location.href = "/views/rekapan/";
+// window.bukaKasir = () => location.href = "/views/kasir/";
 
 // 🔥 INIT
 window.onload = () => {
