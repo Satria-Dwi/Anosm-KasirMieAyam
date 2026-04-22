@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="../../style/style.css">
     <link rel="icon" href="../../img/logo.png">
     <!-- <link rel="stylesheet" href="/Anoms-Transc-KasirMieAyam/style/style.css"> -->
-     <style>
+    <style>
         .main {
             margin-right: 320px;
         }
-     </style>
+    </style>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
             <!-- <h2>ANOMS</h2> -->
             <button onclick="bukaHome()">🏠 Home</button>
             <button class="active">🍽️ Kasir</button>
-            <button onclick="bukaHistory()">📊 History Transaction</button>
+            <button id="menu-admin" onclick="bukaHistory()">📊 History Transaction</button>
             <button onclick="logout()">Logout</button>
         </div>
 
@@ -88,6 +88,11 @@
     </div>
 
     <script type="module" src="../../script/script.js"></script>
+    <script type="module">
+        import { checkAuth } from "../../script/auth.js";
+
+        checkAuth(["admin", "kasir"]);
+    </script>
 </body>
 
 </html>

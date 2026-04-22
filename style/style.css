@@ -336,7 +336,7 @@ button {
         /* ganti ke 80mm kalau printer kamu 80mm */
         margin: 0;
     }
-    
+
 
     html,
     body {
@@ -542,4 +542,107 @@ button {
     font-size: 14px;
     opacity: 0.6;
     pointer-events: none;
+}
+
+.pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    border: none;
+    background: #4f46e5;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.pagination button:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+    background: #cbd5f5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#page-info {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.table-item {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.table-item th,
+.table-item td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.table-item th {
+    background: #f5f7ff;
+    font-weight: 600;
+}
+
+.table-item tr:hover {
+    background: #f9f9ff;
+}
+
+.table-item td:last-child {
+    text-align: right;
+    font-weight: bold;
+    color: #4f46e5;
+}
+
+.quick-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-filter button {
+    padding: 6px 12px;
+    border: none;
+    background: #e5e7eb;
+    color: #111827;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.quick-filter button:hover {
+    background: #4f46e5;
+    color: white;
+}
+
+.quick-filter button.active {
+    background: #4f46e5 !important;
+    color: white !important;
+}
+
+#chart-harian {
+    width: 100%;
+    height: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }

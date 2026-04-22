@@ -192,7 +192,8 @@ function searchMenu() {
 function logout() {
     localStorage.removeItem("isLogin");
     localStorage.removeItem("user");
-    window.location.href = "/Anoms-Transc-KasirMieAyam/";
+    // window.location.href = "/Anoms-Transc-KasirMieAyam/";
+    window.location.href = "/";
 }
 
 // 🔥 GLOBAL
@@ -231,5 +232,11 @@ document.addEventListener("DOMContentLoaded", () => {
         menuBtn.addEventListener("click", () => {
             sidebar.classList.toggle("active");
         });
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user.role !== "admin") {
+        document.getElementById("menu-admin").style.display = "none";
     }
 });

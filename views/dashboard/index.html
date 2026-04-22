@@ -18,7 +18,7 @@
             <img src="../../img/logo.png" alt="logo">
             <button class="active">🏠 Home</button>
             <button onclick="bukaKasir()">🍽️ Kasir</button>
-            <button onclick="bukaHistory()">📊 History Transaction</button>
+            <button id="menu-admin" onclick="bukaHistory()">📊 History Transaction</button>
             <button onclick="logout()">Logout</button>
         </div>
 
@@ -58,6 +58,11 @@
     <script type="module" src="../../script/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="../../script/dashboard.js"></script>
+    <script type="module">
+        import { checkAuth } from "../../script/auth.js";
+
+        checkAuth(["admin", "kasir"]);
+    </script>
 </body>
 
 </html>

@@ -19,7 +19,7 @@
             <img src="../../img/logo.png" alt="logo">
             <button onclick="bukaHome()">🏠 Home</button>
             <button onclick="bukaKasir()">🍽️ Kasir</button>
-            <button class="active">📊 History Transaction</button>
+            <button id="menu-admin" class="active">📊 History Transaction</button>
             <button onclick="logout()">Logout</button>
         </div>
 
@@ -32,12 +32,21 @@
 
             <!-- FILTER BAR -->
             <div class="card filter-bar">
-                <input type="date" id="start">
-                <input type="date" id="end">
+                <div>
+                    <input type="date" id="start">
+                    <input type="date" id="end">
 
-                <button onclick="filterTanggal()">FILTER</button>
-                <button onclick="resetFilter()">RESET</button>
-                <button onclick="exportCSV()">Ekspor CSV</button>
+                    <button onclick="filterTanggal()">FILTER</button>
+                    <button onclick="resetFilter()">RESET</button>
+                    <button onclick="exportCSV()">Ekspor CSV</button>
+                </div>
+
+                <div class="quick-filter">
+                    <button onclick="window.filterCepat(1, this)">Hari Ini</button>
+                    <button onclick="window.filterCepat(7, this)">7 Hari</button>
+                    <button onclick="window.filterCepat(30, this)">1 Bulan</button>
+                    <button onclick="window.filterCepat(365, this)">1 Tahun</button>
+                </div>
             </div>
 
             <!-- SUMMARY CARDS -->
@@ -50,6 +59,23 @@
                 <div class="card green">
                     <h4>Total Transaksi</h4>
                     <h2 id="jumlahTransaksi">0</h2>
+                </div>
+            </div>
+            <div class="cards">
+                <div class="card blue">
+                    <h3>Penjualan Hari Ini</h3>
+                    <table class="table-item">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Terjual</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item-harian"></tbody>
+                    </table>
+                </div>
+                <div class="card green">
+                    <canvas id="chart-harian" height="120"></canvas>
                 </div>
             </div>
 
@@ -71,12 +97,23 @@
                     <tbody id="list"></tbody>
                 </table>
             </div>
+            <div class="pagination">
+                <button onclick="prevPage()">Prev</button>
+                <span id="page-info"></span>
+                <button onclick="nextPage()">Next</button>
+            </div>
 
         </div>
 
     </div>
     <script type="module" src="../../script/script.js"></script>
     <script type="module" src="../../script/historytrans.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module">
+        import { checkAuth } from "../../script/auth.js";
+
+        checkAuth(["admin"]);
+    </script>
 </body>
 
 </html>
