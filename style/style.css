@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+html,
+body {
+    overflow-x: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -516,48 +521,57 @@ button {
     }
 }
 
-/* =========================
-   📱 TABLET (768px)
-========================= */
 @media (max-width: 768px) {
 
-    /* sidebar jadi hidden */
+    /* 🔥 SIDEBAR HIDDEN FULL (NO OVERLAP) */
     .sidebar {
         position: fixed;
-        left: -100%;
+        left: -260px;
+        top: 0;
+        width: 240px;
+        height: 100vh;
+
         transition: 0.3s ease;
         z-index: 9999;
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
     }
 
+    /* kalau aktif (nanti bisa dipanggil via JS toggle) */
     .sidebar.active {
         left: 0;
     }
 
-    /* main full */
+    /* 🔥 MAIN FULL WIDTH (IMPORTANT FIX) */
     .main {
-        margin-left: 0;
+        margin-left: 0 !important;
+        width: 100%;
         padding: 15px;
     }
 
-    /* cart jadi bawah (tidak nabrak) */
+    /* 🔥 CART jadi bottom panel */
     .cart {
         position: fixed;
         bottom: 0;
         top: auto;
-        right: 0;
         left: 0;
+        right: 0;
+
         width: 100%;
         height: 45vh;
-        border-left: none;
+
         border-top: 1px solid #eee;
+        border-left: none;
+
+        z-index: 1000;
     }
 
+    /* prevent content ketutup cart */
     .main-content {
         margin-right: 0;
         padding-bottom: 50vh;
     }
 
-    /* grid jadi 1-2 kolom */
+    /* grid adjust */
     .grid {
         grid-template-columns: repeat(2, 1fr);
     }
