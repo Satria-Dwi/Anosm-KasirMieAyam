@@ -148,14 +148,27 @@ body {
 
 .cart {
     width: 320px;
-    /* ukuran ideal */
     min-width: 280px;
     max-width: 350px;
+
     background: #ffffff;
     padding: 20px;
     border-left: 1px solid #eee;
+
     display: flex;
     flex-direction: column;
+
+    /* 🔥 tambahan */
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.main-content {
+    margin-right: 340px;
 }
 
 .cart h2 {
@@ -261,35 +274,41 @@ button {
     margin-top: 10px;
 }
 
-/* STRUK */
 .struk {
-    width: 58mm;
+    width: 260px;
     font-family: monospace;
-    font-size: 12px;
+    background: white;
     padding: 10px;
     display: none;
-    /* tetap hidden */
 }
 
 .struk h3 {
     text-align: center;
-    margin: 0;
+    margin: 5px 0;
 }
 
 .struk p {
+    font-size: 12px;
     margin: 2px 0;
 }
 
-hr {
-    border: 0;
-    border-top: 1px dashed black;
+.struk hr {
+    border-top: 1px dashed #000;
+    margin: 5px 0;
 }
 
-.item-struk {
+.struk-item {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.struk-row {
     display: flex;
     justify-content: space-between;
+    font-size: 12px;
 }
 
+/* PRINT MODE */
 @media print {
     body * {
         visibility: hidden;
@@ -304,7 +323,8 @@ hr {
         position: absolute;
         left: 0;
         top: 0;
-        display: block;
+        width: 58mm;
+        font-size: 12px;
     }
 }
 

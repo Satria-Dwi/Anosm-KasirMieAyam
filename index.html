@@ -4,58 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="style/style.css"> -->
-    <link rel="stylesheet" href="/Anoms-Transc-KasirMieAyam/style/style.css">
+    <title>Login Kasir</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top, #2c1b10, #0f0a08);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* 🎬 ANIMASI */
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+                filter: blur(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* 💳 CARD */
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 28px;
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+            color: #fff;
+            text-align: center;
+            position: relative;
+
+            animation: fadeSlideIn 0.9s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        .login-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            padding: 1px;
+            background: linear-gradient(135deg, #ffb347, #ff7e5f);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        /* LOGO */
+        .logo {
+            opacity: 0;
+            animation: fadeSlideIn 0.6s ease-out forwards;
+            animation-delay: 0.1s;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+        }
+
+        /* TITLE */
+        h2 {
+            opacity: 0;
+            animation: fadeSlideIn 0.6s ease-out forwards;
+            animation-delay: 0.2s;
+            margin-bottom: 18px;
+            font-size: 22px;
+        }
+
+        /* INPUT BASE */
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.25);
+            color: white;
+            outline: none;
+            font-size: 14px;
+
+            opacity: 0;
+            animation: fadeSlideIn 0.6s ease-out forwards;
+        }
+
+        input:focus {
+            border-color: #ffb347;
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+        }
+
+        /* STAGGER INPUT */
+        input:nth-of-type(1) {
+            animation-delay: 0.3s;
+        }
+
+        input:nth-of-type(2) {
+            animation-delay: 0.4s;
+        }
+
+        /* BUTTON */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+
+            opacity: 0;
+            animation: fadeSlideIn 0.6s ease-out forwards;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #ffb347, #ff7e5f);
+            color: #1a1a1a;
+            animation-delay: 0.5s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .reg-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            animation-delay: 0.6s;
+        }
+
+        .reg-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        /* ERROR */
+        #error {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #ff6b6b;
+
+            opacity: 0;
+            animation: fadeSlideIn 0.6s ease-out forwards;
+            animation-delay: 0.7s;
+        }
+
+        /* MOBILE */
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 22px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .logo img {
+                width: 55px;
+                height: 55px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <!-- <h2>🍝 ANOMS</h2> -->
-            <img src="img/logo.png" alt="logo">
-            <button class="active">🏠 Home</button>
-            <button onclick="bukaKasir()">🍽️ Kasir</button>
-            <button onclick="bukaHistory()">📊 History Transaction</button>
+
+    <div class="login-box">
+        <div class="logo">
+            <img src="img/logo.png" alt="">
+            <!-- <h2>KASIR POS</h2> -->
         </div>
+        <h2>Login - Anoms Transac</h2>
 
-        <div class="main">
-            <div class="topbar">
-                <h2>🏠 Dashboard Transaksi</h2>
-            </div>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
 
-            <div class="cards">
-                <div class="card blue">
-                    <h4>PENDAPATAN HARI INI</h4>
-                    <h2>Rp <span id="pendapatanHariIni">0</span></h2>
-                </div>
+        <button class="login-btn" onclick="login()">Login</button>
+        <button class="reg-btn" onclick="bukaRegister()">Registrasi</button>
 
-                <div class="card green">
-                    <h4>TRANSAKSI HARI INI</h4>
-                    <h2><span id="transaksiHariIni">0</span></h2>
-                </div>
-
-                <!-- <div class="card red">
-                    <h4>PRODUK STOK RENDAH</h4>
-                    <h2><span id="stokRendah">0</span></h2>
-                </div>
-
-                <div class="card orange">
-                    <h4>BIAYA BULAN INI</h4>
-                    <h2>Rp <span id="biayaBulan">0</span></h2>
-                </div> -->
-            </div>
-
-            <div class="welcome">
-                👋 Selamat datang kembali, Kasir Toko! Anda login sebagai Kasir.
-            </div>
-            <canvas id="salesChart" height="100"></canvas>
-        </div>
+        <p id="error"></p>
     </div>
-    <script src="script/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="script/dashboard.js"></script>
+
 </body>
+<script type="module" src="script/login.js"></script>
 
 </html>

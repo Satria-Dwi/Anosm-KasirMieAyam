@@ -4,8 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Kasir PRO</title>
-    <!-- <link rel="stylesheet" href="../style/style.css"> -->
-    <link rel="stylesheet" href="/Anoms-Transc-KasirMieAyam/style/style.css">
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="icon" href="../../img/logo.png">
+    <!-- <link rel="stylesheet" href="/Anoms-Transc-KasirMieAyam/style/style.css"> -->
+     <style>
+        .main {
+            margin-right: 320px;
+        }
+     </style>
 </head>
 
 <body>
@@ -13,11 +19,12 @@
 
         <!-- SIDEBAR -->
         <div class="sidebar">
-            <img src="../img/logo.png" alt="logo">
+            <img src="../../img/logo.png" alt="logo">
             <!-- <h2>ANOMS</h2> -->
             <button onclick="bukaHome()">🏠 Home</button>
             <button class="active">🍽️ Kasir</button>
             <button onclick="bukaHistory()">📊 History Transaction</button>
+            <button onclick="logout()">Logout</button>
         </div>
 
         <!-- MENU -->
@@ -52,6 +59,7 @@
     </div>
 
     <!-- STRUK -->
+    <!-- STRUK -->
     <div id="struk" class="struk">
         <h3>WARUNG MIE AYAM</h3>
         <p>Jl. Contoh No.1</p>
@@ -62,49 +70,24 @@
         <div id="s-list"></div>
 
         <hr>
-        <p>Total : Rp <span id="s-total"></span></p>
-        <p>Bayar : Rp <span id="s-bayar"></span></p>
-        <p>Kembali : Rp <span id="s-kembali"></span></p>
+        <div class="struk-row">
+            <span>Total</span>
+            <span>Rp <span id="s-total"></span></span>
+        </div>
+        <div class="struk-row">
+            <span>Bayar</span>
+            <span>Rp <span id="s-bayar"></span></span>
+        </div>
+        <div class="struk-row">
+            <span>Kembali</span>
+            <span>Rp <span id="s-kembali"></span></span>
+        </div>
 
         <hr>
         <p style="text-align:center">Terima Kasih 🙏</p>
     </div>
 
-    <script src="../script/script.js"></script>
+    <script type="module" src="../../script/script.js"></script>
 </body>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyB-vWhdcOYRayZ8YHACJ-fvzpci0eWKRGQ",
-        authDomain: "anos-kasirmieayam.firebaseapp.com",
-        projectId: "anos-kasirmieayam",
-        storageBucket: "anos-kasirmieayam.firebasestorage.app",
-        messagingSenderId: "561871364968",
-        appId: "1:561871364968:web:170152a933d38787796cdd",
-        measurementId: "G-SLNRZFD32Y"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // 🔥 fungsi global
-    window.simpanTransaksi = async function (data) {
-        console.log("🔥 kirim:", data);
-
-        try {
-            await addDoc(collection(db, "transaksi"), data);
-            console.log("✅ MASUK FIREBASE");
-        } catch (e) {
-            console.error("❌ ERROR:", e);
-        }
-    };
-
-    // 🔥 WAJIB GLOBAL
-    window.db = db;
-    window.addDoc = addDoc;
-    window.collection = collection;
-</script>
 
 </html>

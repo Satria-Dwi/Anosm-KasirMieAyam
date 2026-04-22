@@ -1,21 +1,25 @@
+import { checkAuth } from "./auth.js";
+import { simpanTransaksi } from "./simpantransaksi.js";
+
+checkAuth();
 let menu = [
     {
         nama: "Mie Ayam",
         harga: 10000,
         kategori: "mie",
-        img: "https://images.unsplash.com/photo-1593755768185-f7257e9067ec?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400"
+        img: "https://images.unsplash.com/photo-1593755768185-f7257e9067ec?w=400"
     },
     {
         nama: "Mie Ayam Bakso",
         harga: 12000,
         kategori: "mie",
-        img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400"
+        img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?w=400"
     },
     {
         nama: "Mie Ayam Ceker",
         harga: 13000,
         kategori: "mie",
-        img: "https://images.unsplash.com/photo-1680675706515-fb3eb73116d4?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400"
+        img: "https://images.unsplash.com/photo-1680675706515-fb3eb73116d4?w=400"
     },
     {
         nama: "Es Teh",
@@ -27,18 +31,55 @@ let menu = [
         nama: "Es Jeruk",
         harga: 6000,
         kategori: "minum",
-        img: "https://images.unsplash.com/photo-1522427088495-81d38b91befb?q=80&w=701&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400"
+        img: "https://images.unsplash.com/photo-1522427088495-81d38b91befb?w=400"
     }
 ];
 
 let cart = [];
 
-// format rupiah
-function rupiah(angka) {
+// 🔥 FORMAT
+function formatRupiah(angka) {
     return angka.toLocaleString("id-ID");
 }
 
-// render menu
+// 🔥 PRINT STRUK (FIX)
+function printStruk(data) {
+
+    document.getElementById("s-no").innerText =
+        "TRX-" + new Date().getTime();
+
+    document.getElementById("s-tanggal").innerText =
+        new Date().toLocaleString("id-ID");
+
+    const list = document.getElementById("s-list");
+    list.innerHTML = "";
+
+    data.items.forEach(item => {
+        list.innerHTML += `
+        <div class="struk-item">
+            <div>${item.nama}</div>
+            <div class="struk-row">
+                <span>${item.qty} x ${formatRupiah(item.harga)}</span>
+                <span>${formatRupiah(item.qty * item.harga)}</span>
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("s-total").innerText = formatRupiah(data.total);
+    document.getElementById("s-bayar").innerText = formatRupiah(data.bayar);
+    document.getElementById("s-kembali").innerText = formatRupiah(data.kembali);
+
+    const struk = document.getElementById("struk");
+    struk.style.display = "block";
+
+    setTimeout(() => {
+        window.print();
+        struk.style.display = "none";
+    }, 300);
+}
+
+// 🔥 RENDER MENU
 function renderMenu(data = menu) {
     const container = document.getElementById("menu-list");
     if (!container) return;
@@ -47,46 +88,29 @@ function renderMenu(data = menu) {
 
     data.forEach((m, i) => {
         html += `
-            <div class="card" onclick='tambah(${i})'>
-                <img src="${m.img}" onerror="this.src='https://via.placeholder.com/150'">
-                <h4>${m.nama}</h4>
-                <p>Rp ${rupiah(m.harga)}</p>
-            </div>
-            `;
+        <div class="card" onclick='tambah(${i})'>
+            <img src="${m.img}" onerror="this.src='https://via.placeholder.com/150'">
+            <h4>${m.nama}</h4>
+            <p>Rp ${formatRupiah(m.harga)}</p>
+        </div>
+        `;
     });
 
     container.innerHTML = html;
 }
 
-window.tambahByName = function (nama) {
-    let item = menu.find(m => m.nama === nama);
-    if (!item) return;
-
-    let found = cart.find(c => c.nama === item.nama);
-
-    if (found) {
-        found.qty++;
-    } else {
-        cart.push({ ...item, qty: 1 });
-    }
-
-    renderCart();
-};
-
-// tambah ke cart
+// 🔥 TAMBAH
 function tambah(i) {
     let item = menu[i];
     let found = cart.find(c => c.nama === item.nama);
 
-    if (found) {
-        found.qty++;
-    } else {
-        cart.push({ ...item, qty: 1 });
-    }
+    if (found) found.qty++;
+    else cart.push({ ...item, qty: 1 });
+
     renderCart();
 }
 
-// render cart
+// 🔥 CART
 function renderCart() {
     const cartList = document.getElementById("cart-list");
     if (!cartList) return;
@@ -106,7 +130,7 @@ function renderCart() {
                 ${item.qty}
                 <span class="qty-btn" onclick="tambahQty(${i})">+</span>
             </div>
-            Rp ${rupiah(total)}
+            Rp ${formatRupiah(total)}
         </div>
         `;
     });
@@ -114,108 +138,112 @@ function renderCart() {
     let tax = 0;
     let total = subtotal + tax;
 
-    const subtotalEl = document.getElementById("subtotal");
-    const taxEl = document.getElementById("tax");
-    const totalEl = document.getElementById("total");
-    const bayarEl = document.getElementById("bayar");
-    const kembaliEl = document.getElementById("kembali");
+    document.getElementById("cart-list").innerHTML = html;
+    document.getElementById("subtotal").innerText = formatRupiah(subtotal);
+    document.getElementById("tax").innerText = formatRupiah(tax);
+    document.getElementById("total").innerText = formatRupiah(total);
 
-    if (cartList) cartList.innerHTML = html;
-    if (subtotalEl) subtotalEl.innerText = rupiah(subtotal);
-    if (taxEl) taxEl.innerText = rupiah(tax);
-    if (totalEl) totalEl.innerText = rupiah(total);
+    let bayar = parseInt(document.getElementById("bayar")?.value) || 0;
+    let kembali = Math.max(0, bayar - total);
 
-    let bayar = parseInt(bayarEl?.value) || 0;
-    if (kembaliEl) kembaliEl.innerText = rupiah(bayar - total);
+    document.getElementById("kembali").innerText = formatRupiah(kembali);
 }
 
-// tambah qty
+// 🔥 QTY
 function tambahQty(i) {
     cart[i].qty++;
     renderCart();
 }
 
-// kurang qty
 function kurang(i) {
     cart[i].qty--;
     if (cart[i].qty <= 0) cart.splice(i, 1);
     renderCart();
 }
 
-// proses bayar + struk
-function prosesBayar() {
-    const totalText = document.getElementById("total")?.innerText || "0";
-    let total = parseInt(totalText.replace(/\./g, ""));
+// 🔥 BAYAR (FIX TOTAL)
+async function prosesBayar() {
+    if (cart.length === 0) return alert("Keranjang kosong!");
 
-    let bayar = parseInt(document.getElementById("bayar")?.value || 0);
+    const total = cart.reduce((sum, item) => sum + item.harga * item.qty, 0);
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!currentUser) {
+        window.location.href = "/";
+    }
+
+    const bayarInput = document.getElementById("bayar");
+    const bayar = parseInt(bayarInput.value) || 0;
 
     if (bayar < total) return alert("Uang kurang!");
 
-    let kembali = bayar - total;
+    const kembali = bayar - total;
 
-    let now = new Date();
-    let tanggal = now.toISOString();
-    let no = Math.floor(Math.random() * 100000);
-
-    addDoc(collection(db, "transaksi"), {
-        items: cart,
+    const data = {
+        items: [...cart], // 🔥 biar aman (tidak ke-reset sebelum print)
         total,
         bayar,
         kembali,
-        kasir: "Satria", // atau ambil dari login nanti
+        kasir: currentUser?.username || "unknown",
         waktu: new Date()
-    });
+    };
 
-    window.print();
+    try {
+        // ✅ tunggu firebase selesai
+        await simpanTransaksi(data);
 
-    cart = [];
-    renderCart();
+        // ✅ print pakai data yang sudah fix
+        printStruk(data);
 
-    const bayarInput = document.getElementById("bayar");
-    if (bayarInput) {
+        // ✅ reset setelah semua selesai
+        cart = [];
+        renderCart();
+
         bayarInput.value = "";
-        bayarInput.focus();
+        document.getElementById("kembali").innerText = "0";
+
+    } catch (err) {
+        console.error(err);
+        alert("Gagal simpan transaksi!");
     }
-
-    const kembaliEl = document.getElementById("kembali");
-    if (kembaliEl) kembaliEl.innerText = "0";
 }
-
-// filter
-function filter(kat) {
-    if (kat === "all") return renderMenu();
-    renderMenu(menu.filter(m => m.kategori === kat));
-}
-
-// search
+// 🔥 SEARCH
 function searchMenu() {
     let key = document.getElementById("search").value.toLowerCase();
     renderMenu(menu.filter(m => m.nama.toLowerCase().includes(key)));
 }
 
-// window.bukaHome = function () {
-//     location.href = "/Anoms-transac/";
-// };
+function logout() {
+    localStorage.removeItem("isLogin");
+    localStorage.removeItem("user"); // kalau kamu pakai user juga
+    window.location.href = "/";
+}
 
-// window.bukaHistory = function () {
-//     location.href = "/Anoms-transac/rekapan/";
-// };
+window.tambah = tambah;
+window.tambahQty = tambahQty;
+window.kurang = kurang;
+window.renderMenu = renderMenu;
+window.renderCart = renderCart;
+window.prosesBayar = prosesBayar;
+window.searchMenu = searchMenu;
+window.logout = logout;
 
-// window.bukaKasir = function () {
-//     location.href = "/Anoms-transac/kasir/";
-// };
+// 🔥 NAV
+// window.bukaHome = () => location.href = "/Anoms-transac/";
+// window.bukaHistory = () => location.href = "/Anoms-transac/views/rekapan/";
+// window.bukaKasir = () => location.href = "/Anoms-transac/views/kasir/";
 
-window.bukaHome = function () {
-    location.href = "/Anoms-Transc-KasirMieAyam/";
+window.bukaHome = () => location.href = "/views/dashboard/";
+window.bukaHistory = () => location.href = "/views/rekapan/";
+window.bukaKasir = () => location.href = "/views/kasir/";
+
+// 🔥 INIT
+window.onload = () => {
+    renderMenu();
+
+    const bayarInput = document.getElementById("bayar");
+
+    if (bayarInput) {
+        bayarInput.addEventListener("input", renderCart);
+    }
 };
-
-window.bukaHistory = function () {
-    location.href = "/Anoms-Transc-KasirMieAyam/rekapan/";
-};
-
-window.bukaKasir = function () {
-    location.href = "/Anoms-Transc-KasirMieAyam/kasir/";
-};
-
-
-renderMenu();

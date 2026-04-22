@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="icon" href="../../img/logo.png">
+    <!-- <link rel="stylesheet" href="/Anoms-Transc-KasirMieAyam/style/style.css"> -->
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- <h2>🍝 ANOMS</h2> -->
+            <img src="../../img/logo.png" alt="logo">
+            <button class="active">🏠 Home</button>
+            <button onclick="bukaKasir()">🍽️ Kasir</button>
+            <button onclick="bukaHistory()">📊 History Transaction</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div class="main">
+            <div class="topbar">
+                <h2>🏠 Dashboard Transaksi</h2>
+            </div>
+
+            <div class="cards">
+                <div class="card blue">
+                    <h4>PENDAPATAN HARI INI</h4>
+                    <h2>Rp <span id="pendapatanHariIni">0</span></h2>
+                </div>
+
+                <div class="card green">
+                    <h4>TRANSAKSI HARI INI</h4>
+                    <h2><span id="transaksiHariIni">0</span></h2>
+                </div>
+
+                <!-- <div class="card red">
+                    <h4>PRODUK STOK RENDAH</h4>
+                    <h2><span id="stokRendah">0</span></h2>
+                </div>
+
+                <div class="card orange">
+                    <h4>BIAYA BULAN INI</h4>
+                    <h2>Rp <span id="biayaBulan">0</span></h2>
+                </div> -->
+            </div>
+
+            <div class="welcome">
+                👋 Selamat datang kembali, Kasir Toko! Anda login sebagai Kasir.
+            </div>
+            <canvas id="salesChart" height="100"></canvas>
+        </div>
+    </div>
+    <script type="module" src="../../script/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../../script/dashboard.js"></script>
+</body>
+
+</html>

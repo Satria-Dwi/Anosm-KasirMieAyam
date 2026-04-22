@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <h3>Register User</h3>
+
+    <input type="text" id="reg-username" placeholder="Username">
+    <input type="password" id="reg-password" placeholder="Password">
+
+    <button onclick="register()">Regristrasi</button>
+    <button onclick="bukaLogin()">Back to Login</button>
+
+    <p id="error" style="color:red;"></p>
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+    import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs,
+        addDoc
+    } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB-vWhdcOYRayZ8YHACJ-fvzpci0eWKRGQ",
+        authDomain: "anos-kasirmieayam.firebaseapp.com",
+        projectId: "anos-kasirmieayam",
+        storageBucket: "anos-kasirmieayam.firebasestorage.app",
+        messagingSenderId: "561871364968",
+        appId: "1:561871364968:web:170152a933d38787796cdd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🔥 INI YANG HILANG
+    const db = getFirestore(app);
+    window.register = async function () {
+        const username = document.getElementById("reg-username").value.trim();
+        const password = document.getElementById("reg-password").value.trim();
+
+        if (!username || !password) {
+            document.getElementById("error").innerText = "Wajib isi semua!";
+            return;
+        }
+
+        if (username.toLowerCase() === "admin") {
+            document.getElementById("error").innerText = "Username admin tidak boleh digunakan";
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, "users"), {
+                username: username,
+                password: password,
+                role: "kasir" // 🔥 SELALU KASIR (tidak bisa admin)
+            });
+
+            alert("User kasir berhasil dibuat!");
+
+            // clear input
+            document.getElementById("reg-username").value = "";
+            document.getElementById("reg-password").value = "";
+
+        } catch (err) {
+            document.getElementById("error").innerText = err.message;
+        }
+    };
+    window.bukaLogin = () => location.href = "login.html";
+</script>
+
+</html>
