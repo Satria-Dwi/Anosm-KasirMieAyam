@@ -1,5 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
+    query,
+    where
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
     getFirestore,
     collection,
     onSnapshot,
@@ -19,35 +23,17 @@ const db = getFirestore(app);
 
 // ================= STATE =================
 let semuaData = [];
+let unsubscribe = null;
 
 // ================= LOAD REALTIME =================
 function loadData() {
-    onSnapshot(collection(db, "transaksi"), (snapshot) => {
+    const hariIni = new Date();
+    hariIni.setHours(0, 0, 0, 0);
 
-        const docs = snapshot.docs.map(d => ({
-            id: d.id,
-            ...d.data()
-        }));
+    const besok = new Date(hariIni);
+    besok.setDate(besok.getDate() + 1);
 
-        semuaData = docs;
-
-        renderData(docs);
-        updateSummary(docs);
-
-        // 🔥 filter hari ini default
-        const hariIni = new Date();
-        hariIni.setHours(0, 0, 0, 0);
-
-        const besok = new Date(hariIni);
-        besok.setDate(besok.getDate() + 1);
-
-        const hariIniData = docs.filter(d => {
-            const tgl = d.waktu?.toDate ? d.waktu.toDate() : new Date();
-            return tgl >= hariIni && tgl < besok;
-        });
-
-        hitungItem(hariIniData); // ✅ hanya hari ini
-    });
+    loadByRange(hariIni, besok);
 }
 
 let currentPage = 1;
@@ -140,7 +126,8 @@ function hitungItemHariIni(docs) {
     hariIni.setHours(0, 0, 0, 0);
 
     docs.forEach(d => {
-        const tgl = d.waktu?.toDate ? d.waktu.toDate() : new Date();
+        const tgl = d.waktu?.toDate ? d.waktu.toDate() : null;
+        if (!tgl) return;
 
         // hanya ambil hari ini
         if (tgl >= hariIni) {
@@ -320,63 +307,33 @@ window.filterTanggal = function () {
     }
 
     let startDate = new Date(start);
+    startDate.setHours(0, 0, 0, 0);
+
     let endDate = new Date(end);
-    endDate.setHours(23, 59, 59);
+    endDate.setHours(23, 59, 59, 999);
 
-    let filtered = semuaData.filter(d => {
-        let tgl = d.waktu?.toDate ? d.waktu.toDate() : new Date(d.tanggal);
-        return tgl >= startDate && tgl <= endDate;
-    });
-
-    renderData(filtered);
-    updateSummary(filtered);
-    hitungItem(filtered); // 🔥 ikut filter
+    loadByRange(startDate, endDate);
 };
 
 // ================= RESET FILTER =================
 window.resetFilter = function () {
-    renderData(semuaData);
-    updateSummary(semuaData);
+    loadData();
 
-    // balik ke hari ini lagi
-    const hariIni = new Date();
-    hariIni.setHours(0, 0, 0, 0);
-
-    const besok = new Date(hariIni);
-    besok.setDate(besok.getDate() + 1);
-
-    const hariIniData = semuaData.filter(d => {
-        const tgl = d.waktu?.toDate ? d.waktu.toDate() : new Date();
-        return tgl >= hariIni && tgl < besok;
-    });
     document.querySelectorAll(".quick-filter button")
         .forEach(btn => btn.classList.remove("active"));
-
-    hitungItem(hariIniData);
 };
-
 window.filterCepat = function (hari, el) {
 
-    currentPage = 1;
-
     const sekarang = new Date();
-    const startDate = new Date();
+    sekarang.setHours(23, 59, 59, 999);
 
+    const startDate = new Date();
     startDate.setDate(sekarang.getDate() - (hari - 1));
     startDate.setHours(0, 0, 0, 0);
 
-    sekarang.setHours(23, 59, 59, 999);
+    loadByRange(startDate, sekarang);
 
-    const filtered = semuaData.filter(d => {
-        const tgl = d.waktu?.toDate ? d.waktu.toDate() : new Date();
-        return tgl >= startDate && tgl <= sekarang;
-    });
-
-    renderData(filtered);
-    updateSummary(filtered);
-    hitungItem(filtered);
-
-    if (el) setActiveButton(el); // 🔥 sekarang aman
+    if (el) setActiveButton(el);
 };
 
 // ================= EXPORT CSV =================
@@ -419,6 +376,32 @@ window.setActiveButton = function (el) {
 
     el.classList.add("active");
 };
+
+function loadByRange(startDate, endDate) {
+    
+    // 🔥 matikan listener lama
+    if (unsubscribe) unsubscribe();
+
+    const q = query(
+        collection(db, "transaksi"),
+        where("waktu", ">=", startDate),
+        where("waktu", "<", endDate) // 🔥 ganti <= jadi <
+    );
+
+    unsubscribe = onSnapshot(q, (snapshot) => {
+
+        const docs = snapshot.docs.map(d => ({
+            id: d.id,
+            ...d.data()
+        }));
+
+        semuaData = docs;
+
+        renderData(docs);
+        updateSummary(docs);
+        hitungItem(docs);
+    });
+}
 
 // ================= START =================
 loadData();

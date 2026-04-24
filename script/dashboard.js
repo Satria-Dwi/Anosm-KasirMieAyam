@@ -35,7 +35,7 @@ function loadDashboard() {
         let transaksiHariIni = 0;
         let perHari = {};
 
-        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayStr = new Date().toLocaleDateString("sv-SE");
 
         snapshot.forEach(doc => {
             const data = doc.data();
@@ -47,7 +47,7 @@ function loadDashboard() {
 
             if (!trxDate || isNaN(trxDate)) return;
 
-            const trxStr = trxDate.toISOString().slice(0, 10);
+            const trxStr = trxDate.toLocaleDateString("sv-SE");
 
             // 💰 hari ini
             if (trxStr === todayStr) {
