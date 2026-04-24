@@ -29,6 +29,7 @@ function printStruk(data) {
 
     const list = document.getElementById("s-list");
 
+
     let html = "";
     data.items.forEach(item => {
         html += `
@@ -50,7 +51,6 @@ function printStruk(data) {
     struk.style.display = "block";
 
     setTimeout(() => {
-        window.print();
 
         setTimeout(() => {
             struk.style.display = "none";
@@ -148,6 +148,7 @@ async function prosesBayar() {
 
     if (!currentUser) {
         window.location.href = "/Anoms-Transc-KasirMieAyam";
+        return;
     }
 
     const bayarInput = document.getElementById("bayar");
@@ -166,15 +167,35 @@ async function prosesBayar() {
         waktu: new Date()
     };
 
+    // 🔥 FORMAT STRUK UNTUK PRINTER
+    let text = `
+            MIE AYAM ANOMS
+            ----------------
+            `;
+
+    data.items.forEach(item => {
+        let name = item.nama.padEnd(12, " ");
+        let qty = `${item.qty}x`;
+        let total = (item.qty * item.harga).toString().padStart(6, " ");
+
+        text += `${name} ${qty}  ${total}\n`;
+    });
+
+    text += `
+            ----------------
+            TOTAL   : ${data.total}
+            BAYAR   : ${data.bayar}
+            KEMBALI : ${data.kembali}
+
+            `;
+
     try {
         await simpanTransaksi(data);
-        // printStruk(data);
-        if (window.Android) {
-            Android.printStruk(JSON.stringify(data));
-        } else {
-            printStruk(data); // fallback kalau di browser
-        }
 
+        // 🔥 PRINT ONLY VIA ANDROID
+        if (window.Android && window.Android.printStruk) {
+            window.Android.printStruk(text);
+        }
         cart = [];
         renderCart();
 
