@@ -20,22 +20,21 @@ function formatRupiah(angka) {
 
 // 🔥 PRINT STRUK
 function printStruk(data) {
-
+    const modal = document.getElementById("strukModal");
     const struk = document.getElementById("struk");
-    if (!struk) return;
+    if (!modal || !struk) return;
 
     document.getElementById("s-no").innerText = "TRX-" + Date.now();
     document.getElementById("s-tanggal").innerText = new Date().toLocaleString("id-ID");
 
     const list = document.getElementById("s-list");
 
-
     let html = "";
     data.items.forEach(item => {
         html += `
         <div class="struk-item">
             <div>${item.nama}</div>
-            <div class="struk-row">
+            <div style="display:flex;justify-content:space-between;">
                 <span>${item.qty} x ${formatRupiah(item.harga)}</span>
                 <span>${formatRupiah(item.qty * item.harga)}</span>
             </div>
@@ -48,12 +47,18 @@ function printStruk(data) {
     document.getElementById("s-bayar").innerText = formatRupiah(data.bayar);
     document.getElementById("s-kembali").innerText = formatRupiah(data.kembali);
 
-    struk.style.display = "block";
+    modal.style.display = "flex";
 
     setTimeout(() => {
-        struk.style.display = "none";
+        modal.style.display = "none";
     }, 3000);
 }
+
+function tutupStruk() {
+    document.getElementById("strukModal").style.display = "none";
+}
+
+window.tutupStruk = tutupStruk;
 
 // 🔥 RENDER MENU
 function renderMenu(data = menu) {

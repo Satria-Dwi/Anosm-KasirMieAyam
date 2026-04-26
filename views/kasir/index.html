@@ -60,7 +60,7 @@
 
     <!-- STRUK -->
     <!-- STRUK -->
-    <div id="struk" class="struk">
+    <!-- <div id="struk" class="struk">
         <h3>WARUNG MIE AYAM</h3>
         <p>Jl. Contoh No.1</p>
         <p>No: <span id="s-no"></span></p>
@@ -85,8 +85,23 @@
 
         <hr>
         <p style="text-align:center">Terima Kasih 🙏</p>
-    </div>
+    </div> -->
+    <div id="strukModal" class="struk-modal">
+        <div class="struk-box" id="struk">
+            <h3>MIE AYAM OM PANGSIT</h3>
+            <p id="s-no"></p>
+            <p id="s-tanggal"></p>
 
+            <div id="s-list"></div>
+
+            <hr>
+            <p>Total: Rp <span id="s-total"></span></p>
+            <p>Bayar: Rp <span id="s-bayar"></span></p>
+            <p>Kembali: Rp <span id="s-kembali"></span></p>
+
+            <button onclick="tutupStruk()">Tutup</button>
+        </div>
+    </div>
     <script type="module" src="../../script/script.js"></script>
     <script type="module">
         import { checkAuth } from "../../script/auth.js";
