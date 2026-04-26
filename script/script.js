@@ -51,12 +51,8 @@ function printStruk(data) {
     struk.style.display = "block";
 
     setTimeout(() => {
-
-        setTimeout(() => {
-            struk.style.display = "none";
-        }, 500);
-
-    }, 200);
+        struk.style.display = "none";
+    }, 3000);
 }
 
 // 🔥 RENDER MENU
