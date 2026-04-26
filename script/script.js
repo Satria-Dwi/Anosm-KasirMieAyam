@@ -190,7 +190,7 @@ function renderCart() {
     document.getElementById("tax").innerText = formatRupiah(tax);
     document.getElementById("total").innerText = formatRupiah(total);
 
-    let bayar = parseInt(document.getElementById("bayar")?.value) || 0;
+    let bayar = parseInt(document.getElementById("bayar")?.value.replace(/\D/g, "")) || 0;
     let kembali = Math.max(0, bayar - total);
 
     document.getElementById("kembali").innerText = formatRupiah(kembali);
