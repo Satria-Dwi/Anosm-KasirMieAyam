@@ -92,7 +92,6 @@ function renderMenu(data = menu) {
     const container = document.getElementById("menu-list");
     if (!container) return;
 
-    // Kelompokkan berdasarkan kategori
     const grouped = data.reduce((acc, item, index) => {
         if (!acc[item.kategori]) acc[item.kategori] = [];
         acc[item.kategori].push({ ...item, index });
@@ -105,12 +104,12 @@ function renderMenu(data = menu) {
         html += `
             <div class="menu-section">
                 <h2 class="menu-title">${kategori}</h2>
-                <div class="menu-grid">
+                <div class="menu-row">
         `;
 
         grouped[kategori].forEach(m => {
             html += `
-                <div class="card" onclick='tambah(${m.index})'>
+                <div class="card horizontal-card" onclick='tambah(${m.index})'>
                     <img src="${m.img}" onerror="this.src='https://via.placeholder.com/150'">
                     <h4>${m.nama}</h4>
                     <p>Rp ${formatRupiah(m.harga)}</p>

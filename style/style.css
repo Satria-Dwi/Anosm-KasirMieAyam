@@ -715,3 +715,40 @@ button {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 15px;
 }
+
+.menu-section {
+    margin-bottom: 25px;
+}
+
+.menu-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+    border-left: 5px solid orange;
+    padding-left: 10px;
+    text-transform: capitalize;
+}
+
+.menu-row {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+}
+
+.menu-row::-webkit-scrollbar {
+    height: 8px;
+}
+
+.menu-row::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.horizontal-card {
+    min-width: 160px;
+    max-width: 160px;
+    flex: 0 0 auto;
+}
