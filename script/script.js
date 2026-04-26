@@ -56,6 +56,7 @@ function printStruk(data) {
     modal.style.zIndex = "999999";
 
     document.getElementById("s-no").innerText = "TRX-" + Date.now();
+    document.getElementById("s-noMeja").innerText = "Meja: " + (data.noMeja || "-");
     document.getElementById("s-tanggal").innerText = new Date().toLocaleString("id-ID");
 
     const list = document.getElementById("s-list");
