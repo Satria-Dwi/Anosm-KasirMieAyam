@@ -265,6 +265,7 @@ async function prosesBayar() {
             cart = [];
             renderCart();
             bayarInput.value = "";
+            document.getElementById("noMeja").value = "";
             document.getElementById("kembali").innerText = "0";
 
         }, 800); // 🔥 naikkan dari 500 → 800-1200ms
