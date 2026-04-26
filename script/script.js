@@ -21,8 +21,20 @@ function formatRupiah(angka) {
 // 🔥 PRINT STRUK
 function printStruk(data) {
     const modal = document.getElementById("strukModal");
-    const strukBox = document.getElementById("strukBox");
-    if (!modal || !strukBox) return;
+
+    if (!modal) {
+        console.log("STRUK MODAL TIDAK ADA");
+        return;
+    }
+
+    // paksa tampil FULL
+    modal.style.display = "flex";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.zIndex = "999999";
 
     document.getElementById("s-no").innerText = "TRX-" + Date.now();
     document.getElementById("s-tanggal").innerText = new Date().toLocaleString("id-ID");
@@ -32,26 +44,22 @@ function printStruk(data) {
     let html = "";
     data.items.forEach(item => {
         html += `
-        <div class="struk-item">
-            <div>${item.nama}</div>
-            <div style="display:flex;justify-content:space-between;">
-                <span>${item.qty} x ${formatRupiah(item.harga)}</span>
-                <span>${formatRupiah(item.qty * item.harga)}</span>
-            </div>
+        <div style="display:flex;justify-content:space-between;">
+            <span>${item.nama}</span>
+            <span>${item.qty} x ${item.harga}</span>
         </div>`;
     });
 
     list.innerHTML = html;
 
-    document.getElementById("s-total").innerText = formatRupiah(data.total);
-    document.getElementById("s-bayar").innerText = formatRupiah(data.bayar);
-    document.getElementById("s-kembali").innerText = formatRupiah(data.kembali);
+    document.getElementById("s-total").innerText = data.total;
+    document.getElementById("s-bayar").innerText = data.bayar;
+    document.getElementById("s-kembali").innerText = data.kembali;
 
-    modal.style.display = "flex";
-
+    // auto close
     setTimeout(() => {
         modal.style.display = "none";
-    }, 3000);
+    }, 10000);
 }
 
 function tutupStruk() {
@@ -202,25 +210,24 @@ async function prosesBayar() {
     try {
         await simpanTransaksi(data);
 
-        // 🔥 PRINT ONLY VIA ANDROID
-        printStruk(data); // selalu tampilkan preview
+        // tampilkan struk dulu
+        printStruk(data);
 
-        if (window.Android && window.Android.printStruk) {
-            try {
+        // kasih delay sebelum reset
+        setTimeout(() => {
+            if (window.Android?.printStruk) {
                 window.Android.printStruk(text);
-            } catch (e) {
-                alert("Printer tidak terhubung!");
             }
-        }
-        cart = [];
-        renderCart();
 
-        bayarInput.value = "";
-        document.getElementById("kembali").innerText = "0";
+            cart = [];
+            renderCart();
+            bayarInput.value = "";
+            document.getElementById("kembali").innerText = "0";
+
+        }, 800); // 🔥 naikkan dari 500 → 800-1200ms
 
     } catch (err) {
         console.error(err);
-        alert("Gagal simpan transaksi!");
     }
 }
 
