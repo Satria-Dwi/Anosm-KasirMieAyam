@@ -11,8 +11,8 @@ let menu = [
     { nama: "Mie Ayam", harga: 7000, kategori: "mie", img: "https://images.unsplash.com/photo-1593755768185-f7257e9067ec?w=400" },
     { nama: "Mie Ayam Ceker", harga: 8000, kategori: "mie", img: "https://images.unsplash.com/photo-1680675706515-fb3eb73116d4?w=400" },
     { nama: "Mie Ayam Pentol", harga: 10000, kategori: "mie", img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?w=400" },
-    { nama: "Pentol 1 Porsi", harga: 5000, kategori: "mie", img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?w=400" },
-    { nama: "Ceker 1 Porsi", harga: 5000, kategori: "mie", img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?w=400" },
+    { nama: "Pentol 1 Porsi", harga: 5000, kategori: "mie", img: "/Anoms-Transc-KasirMieAyam/images/pentol.jpg" },
+    { nama: "Ceker 1 Porsi", harga: 5000, kategori: "mie", img: "/Anoms-Transc-KasirMieAyam/images/ceker.jpg" },
 
     { nama: "Teh Hangat/Dingin", harga: 3000, kategori: "minum", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400" },
     { nama: "Jeruk Hangat/Dingin", harga: 4000, kategori: "minum", img: "https://images.unsplash.com/photo-1522427088495-81d38b91befb?w=400" },
