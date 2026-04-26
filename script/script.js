@@ -21,7 +21,7 @@ function formatRupiah(angka) {
 // 🔥 PRINT STRUK
 function printStruk(data) {
     const modal = document.getElementById("strukModal");
-    const struk = document.getElementById("struk");
+    const strukBox = document.getElementById("strukBox");
     if (!modal || !struk) return;
 
     document.getElementById("s-no").innerText = "TRX-" + Date.now();

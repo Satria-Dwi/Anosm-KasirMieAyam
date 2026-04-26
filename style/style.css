@@ -318,14 +318,15 @@ button {
     background: white;
     padding: 10px;
     margin: auto;
+    display: block;
 }
 
 /* sembunyikan hanya di screen */
-@media screen {
+/* @media screen {
     #struk {
         display: none;
     }
-}
+} */
 
 
 /* PRINT MODE */
@@ -681,6 +682,14 @@ button {
     background: black;
     color: white;
     cursor: pointer;
+}
+
+#strukBox {
+    width: 320px;
+    max-width: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
 }
 
 @keyframes popIn {

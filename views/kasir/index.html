@@ -87,19 +87,22 @@
         <p style="text-align:center">Terima Kasih 🙏</p>
     </div> -->
     <div id="strukModal" class="struk-modal">
-        <div class="struk-box" id="struk">
-            <h3>MIE AYAM OM PANGSIT</h3>
-            <p id="s-no"></p>
-            <p id="s-tanggal"></p>
+        <div class="struk-box">
+            <div id="struk">
+                <h3>MIE AYAM OM PANGSIT</h3>
+                <p id="s-no"></p>
+                <p id="s-tanggal"></p>
+                <hr>
+                <div id="s-list"></div>
+                <hr>
+                <p>Total: <span id="s-total"></span></p>
+                <p>Bayar: <span id="s-bayar"></span></p>
+                <p>Kembali: <span id="s-kembali"></span></p>
+            </div>
 
-            <div id="s-list"></div>
-
-            <hr>
-            <p>Total: Rp <span id="s-total"></span></p>
-            <p>Bayar: Rp <span id="s-bayar"></span></p>
-            <p>Kembali: Rp <span id="s-kembali"></span></p>
-
-            <button onclick="tutupStruk()">Tutup</button>
+            <button onclick="document.getElementById('strukModal').style.display='none'">
+                Tutup
+            </button>
         </div>
     </div>
     <script type="module" src="../../script/script.js"></script>
