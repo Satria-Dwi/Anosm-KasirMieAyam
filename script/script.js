@@ -22,7 +22,7 @@ function formatRupiah(angka) {
 function printStruk(data) {
     const modal = document.getElementById("strukModal");
     const strukBox = document.getElementById("strukBox");
-    if (!modal || !struk) return;
+    if (!modal || !strukBox) return;
 
     document.getElementById("s-no").innerText = "TRX-" + Date.now();
     document.getElementById("s-tanggal").innerText = new Date().toLocaleString("id-ID");
@@ -238,6 +238,16 @@ function logout() {
     window.location.href = "/Anoms-Transc-KasirMieAyam/";
 }
 
+function pilihPrinter() {
+    if (window.Android && Android.selectPrinter) {
+        Android.selectPrinter();
+    } else {
+        alert("Fitur pilih printer hanya tersedia di APK");
+    }
+}
+
+window.pilihPrinter = pilihPrinter;
+
 // 🔥 GLOBAL
 window.tambah = tambah;
 window.tambahQty = tambahQty;
@@ -276,9 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user") || "null");
 
-    if (user.role !== "admin") {
+    if (user?.role !== "admin") {
         document.getElementById("menu-admin").style.display = "none";
     }
 });
