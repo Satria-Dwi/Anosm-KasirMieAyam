@@ -168,33 +168,47 @@ async function prosesBayar() {
     };
 
     // 🔥 FORMAT STRUK UNTUK PRINTER
-    let text = `
-            MIE AYAM ANOMS
-            ----------------
-            `;
+    const trxId = "TRX-" + Date.now();
+    const tanggal = new Date().toLocaleString("id-ID");
+
+    let text = "";
+    text += "        MIE AYAM OM PANGSIT\n";
+    text += "   Jl. Contoh No. 123 Surabaya\n";
+    text += "      Telp. 0812-xxxx-xxxx\n";
+    text += "================================\n";
+    text += `No   : ${trxId}\n`;
+    text += `Tgl  : ${tanggal}\n`;
+    text += `Kasir: ${data.kasir}\n`;
+    text += "================================\n";
 
     data.items.forEach(item => {
-        let name = item.nama.padEnd(12, " ");
-        let qty = `${item.qty}x`;
-        let total = (item.qty * item.harga).toString().padStart(6, " ");
+        let name = item.nama.substring(0, 14).padEnd(14, " ");
+        let qty = `${item.qty}x`.padEnd(4, " ");
+        let total = (item.qty * item.harga).toString().padStart(10, " ");
 
-        text += `${name} ${qty}  ${total}\n`;
+        text += `${name}${qty}${total}\n`;
     });
 
-    text += `
-            ----------------
-            TOTAL   : ${data.total}
-            BAYAR   : ${data.bayar}
-            KEMBALI : ${data.kembali}
-
-            `;
+    text += "--------------------------------\n";
+    text += `TOTAL   ${data.total.toString().padStart(22, " ")}\n`;
+    text += `BAYAR   ${data.bayar.toString().padStart(22, " ")}\n`;
+    text += `KEMBALI ${data.kembali.toString().padStart(22, " ")}\n`;
+    text += "================================\n";
+    text += "     Terima Kasih :)\n";
+    text += "   Selamat Menikmati\n";
+    text += "\n\n\n";
 
     try {
         await simpanTransaksi(data);
 
         // 🔥 PRINT ONLY VIA ANDROID
         if (window.Android && window.Android.printStruk) {
-            window.Android.printStruk(text);
+            try {
+                printStruk(data);
+                window.Android.printStruk(text);
+            } catch (e) {
+                alert("Printer tidak terhubung!");
+            }
         }
         cart = [];
         renderCart();
