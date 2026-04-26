@@ -278,8 +278,10 @@ function buildStruk(data, trxId, tanggal) {
 
     // HEADER
     text += center("MIE AYAM OM PANGSIT");
-    text += center("Jl. Contoh No. 123 Surabaya");
-    text += center("Telp. 0812-xxxx-xxxx");
+    text += center("Jl. Gubernur Suryo");
+    text += center("Sebelah Widury Laundry");
+    text += center("Telp. -");
+    text += center("IG / FB: om_pangsit");
     text += doubleLine();
 
     // INFO
@@ -317,7 +319,7 @@ function buildStruk(data, trxId, tanggal) {
     text += line();
 
     // FOOTER
-    text += center("Terima Kasih");
+    text += center("Terima Kasih :)");
     text += center("Selamat Menikmati");
     text += "\n\n";
 
