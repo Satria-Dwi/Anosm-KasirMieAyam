@@ -4,10 +4,10 @@ import { simpanTransaksi } from "./simpantransaksi.js";
 checkAuth();
 
 let menu = [
-    { nama: "Mie Pangsit Jadul", harga: 5000, kategori: "mie", img: "../images/mie pangsit jadul.jpg?w=400" },
-    { nama: "Mie Pangsit Isi", harga: 7000, kategori: "mie", img: "../images/mie pangsit isi.jpg?w=400" },
-    { nama: "Mie Pangsit Pentol", harga: 8000, kategori: "mie", img: "../images/mie pangsit pentol.jpg?w=400" },
-    { nama: "Mie Pangsit Spesial", harga: 13000, kategori: "mie", img: "../images/mie pangsit spesial.jpg?w=400" },
+    { nama: "Mie Pangsit Jadul", harga: 5000, kategori: "mie", img: "../images/mie-pangsit-jadul.jpg?w=400" },
+    { nama: "Mie Pangsit Isi", harga: 7000, kategori: "mie", img: "../images/mie-pangsit-isi.jpg?w=400" },
+    { nama: "Mie Pangsit Pentol", harga: 8000, kategori: "mie", img: "../images/mie-pangsit-pentol.jpg?w=400" },
+    { nama: "Mie Pangsit Spesial", harga: 13000, kategori: "mie", img: "../images/mie-pangsit-spesial.jpg?w=400" },
     { nama: "Mie Ayam", harga: 7000, kategori: "mie", img: "https://images.unsplash.com/photo-1593755768185-f7257e9067ec?w=400" },
     { nama: "Mie Ayam Ceker", harga: 8000, kategori: "mie", img: "https://images.unsplash.com/photo-1680675706515-fb3eb73116d4?w=400" },
     { nama: "Mie Ayam Pentol", harga: 10000, kategori: "mie", img: "https://images.unsplash.com/photo-1747317277795-0d601795682c?w=400" },
@@ -24,8 +24,8 @@ let menu = [
 
     { nama: "Kerupuk", harga: 1000, kategori: "Topping", img: "../images/kerupuk.jpg?w=400" },
     { nama: "Kerupuk", harga: 2000, kategori: "Topping", img: "../images/kerupuk.jpg?w=400" },
-    { nama: "Sate Puyuh", harga: 3000, kategori: "Topping", img: "../images/sate telur puyuh.jpg?w=400" },
-    { nama: "Sate Usus", harga: 2000, kategori: "Topping", img: "../images/sate usus.jpg?w=400" },
+    { nama: "Sate Puyuh", harga: 3000, kategori: "Topping", img: "../images/sate-telur-puyuh.jpg?w=400" },
+    { nama: "Sate Usus", harga: 2000, kategori: "Topping", img: "../images/sate-usus.jpg?w=400" },
 
 
 ];
