@@ -66,15 +66,15 @@ function printStruk(data) {
         html += `
         <div style="display:flex;justify-content:space-between;">
             <span>${item.nama}</span>
-            <span>${item.qty} x ${item.harga}</span>
+            <span>${item.qty} x Rp ${formatRupiah(item.harga)}</span>
         </div>`;
     });
 
     list.innerHTML = html;
 
-    document.getElementById("s-total").innerText = data.total;
-    document.getElementById("s-bayar").innerText = data.bayar;
-    document.getElementById("s-kembali").innerText = data.kembali;
+    document.getElementById("s-total").innerText = "Rp " + formatRupiah(data.total);
+    document.getElementById("s-bayar").innerText = "Rp " + formatRupiah(data.bayar);
+    document.getElementById("s-kembali").innerText = "Rp " + formatRupiah(data.kembali);
 
     // auto close
     setTimeout(() => {
@@ -221,7 +221,7 @@ async function prosesBayar() {
     }
 
     const bayarInput = document.getElementById("bayar");
-    const bayar = parseInt(bayarInput.value) || 0;
+    const bayar = parseInt(bayarInput.value.replace(/\D/g, "")) || 0;
     const noMeja = document.getElementById("noMeja")?.value.trim() || "-";
 
     if (bayar < total) return alert("Uang kurang!");
@@ -399,7 +399,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const bayarInput = document.getElementById("bayar");
     if (bayarInput) {
-        bayarInput.addEventListener("input", renderCart);
+        bayarInput.addEventListener("input", function () {
+            let angka = this.value.replace(/\D/g, ""); // ambil angka saja
+            this.value = angka ? Number(angka).toLocaleString("id-ID") : "";
+            renderCart();
+        });
     }
 
     const menuBtn = document.getElementById("menuBtn");
