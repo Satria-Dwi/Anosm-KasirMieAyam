@@ -306,7 +306,7 @@ function buildStruk(data, trxId, tanggal) {
     text += center("Jl. Gubernur Suryo");
     text += center("Sebelah Widury Laundry");
     text += center("Telp. -");
-    text += center("IG / FB: om_pangsit");
+    // text += center("IG / FB: om_pangsit");
     text += doubleLine();
 
     // INFO
