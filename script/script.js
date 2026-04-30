@@ -299,6 +299,19 @@ function buildStruk(data, trxId, tanggal) {
         return left + " ".repeat(Math.max(1, space)) + right + "\n";
     };
 
+    const leftRightBig = (left, right = "") => {
+        const bigWidth = 16; // lebar efektif saat font double
+        left = String(left);
+        right = String(right);
+
+        // potong kalau kepanjangan
+        if (left.length > bigWidth) left = left.slice(0, bigWidth);
+        if (right.length > bigWidth) right = right.slice(0, bigWidth);
+
+        const space = bigWidth - left.length - right.length;
+        return left + " ".repeat(Math.max(0, space)) + right + "\n";
+    };
+
     let text = "";
 
     // HEADER
@@ -337,7 +350,12 @@ function buildStruk(data, trxId, tanggal) {
 
     text += leftRight(`Total QTY : ${totalQty}`, "");
     // text += leftRight("Subtotal", `Rp ${formatRupiah(data.total)}`);
-    text += leftRight("Total", `Rp ${formatRupiah(data.total)}`);
+    // text += leftRight("Total", `Rp ${formatRupiah(data.total)}`);
+    text += "\x1D\x21\x11"; // font besar
+    text += "\x1B\x45\x01"; // bold on
+    text += leftRightBig("TOTAL", formatRupiah(data.total));
+    text += "\x1B\x45\x00"; // bold off
+    text += "\x1D\x21\x00"; // normal lagi
     text += line();
 
     // PAYMENT
