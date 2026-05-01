@@ -2,7 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
     getFirestore,
     collection,
-    onSnapshot
+    onSnapshot,
+    deleteDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ================= FIREBASE =================
@@ -12,29 +14,33 @@ const firebaseConfig = {
     projectId: "anos-kasirmieayam",
 };
 
-// ================= INIT =================
+// 🔥 INIT
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ================= FORMAT =================
+// 🔥 FORMAT RUPIAH
 function rupiah(angka) {
     return new Intl.NumberFormat("id-ID").format(angka);
 }
 
-let chart = null;
+// 🔥 CHART
+let chart;
 
-// ================= LOAD DASHBOARD =================
+// 🔥 LOAD DASHBOARD
 function loadDashboard() {
+
     onSnapshot(collection(db, "transaksi"), (snapshot) => {
+
         let pendapatanHariIni = 0;
         let transaksiHariIni = 0;
         let perHari = {};
 
         const todayStr = new Date().toLocaleDateString("sv-SE");
 
-        snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
+        snapshot.forEach(doc => {
+            const data = doc.data();
 
+            // 🔥 ambil tanggal (prioritas: waktu)
             // 🔥 pakai createdAt (utama), fallback ke waktu_raw / waktu
             const trxDate = data.createdAt?.toDate
                 ? data.createdAt.toDate()
@@ -50,13 +56,13 @@ function loadDashboard() {
 
             const trxStr = trxDate.toLocaleDateString("sv-SE");
 
-            // 💰 Hari ini
+            // 💰 hari ini
             if (trxStr === todayStr) {
                 pendapatanHariIni += Number(data.total || 0);
                 transaksiHariIni++;
             }
 
-            // 📊 Rekap per hari
+            // 📊 chart
             const tgl = trxDate.toLocaleDateString("id-ID");
 
             if (!perHari[tgl]) perHari[tgl] = 0;
@@ -67,16 +73,6 @@ function loadDashboard() {
         document.getElementById("pendapatanHariIni").innerText = rupiah(pendapatanHariIni);
         document.getElementById("transaksiHariIni").innerText = transaksiHariIni;
 
-        // 📈 SORT chart by date
-        const sorted = Object.entries(perHari).sort((a, b) => {
-            const d1 = new Date(a[0].split("/").reverse().join("-"));
-            const d2 = new Date(b[0].split("/").reverse().join("-"));
-            return d1 - d2;
-        });
-
-        const labels = sorted.map(i => i[0]);
-        const values = sorted.map(i => i[1]);
-
         // 📈 CHART
         const ctx = document.getElementById("salesChart");
 
@@ -86,22 +82,19 @@ function loadDashboard() {
             chart = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels,
+                    labels: Object.keys(perHari),
                     datasets: [{
                         label: "Penjualan",
-                        data: values,
-                        tension: 0.35,
-                        fill: true
+                        data: Object.values(perHari)
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
                 }
             });
         }
+
     });
 }
 
-// ================= START =================
-window.addEventListener("DOMContentLoaded", loadDashboard);
+// 🔥 AUTO JALAN
+window.addEventListener("DOMContentLoaded", () => {
+    loadDashboard();
+});
