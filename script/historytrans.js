@@ -44,8 +44,8 @@ let allData = [];
 window.renderData = function (docs) {
     // urutkan terbaru dulu
     allData = [...docs].sort((a, b) => {
-        const tA = a.waktu?.toDate ? a.waktu.toDate() : 0;
-        const tB = b.waktu?.toDate ? b.waktu.toDate() : 0;
+        const tA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+        const tB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
         return tB - tA;
     });
 
@@ -66,9 +66,9 @@ function renderPage() {
 
     pageData.forEach((d) => {
 
-        const waktu = d.waktu?.toDate
-            ? d.waktu.toDate().toLocaleString("id-ID")
-            : "-";
+        const waktu = d.createdAt?.toDate
+            ? d.createdAt.toDate().toLocaleString("id-ID")
+            : d.waktu || "-";
 
         const items = (d.items || [])
             .map(i => `${i.nama} (${i.qty})`)
@@ -126,7 +126,9 @@ function hitungItemHariIni(docs) {
     hariIni.setHours(0, 0, 0, 0);
 
     docs.forEach(d => {
-        const tgl = d.waktu?.toDate ? d.waktu.toDate() : null;
+        const tgl = d.createdAt?.toDate
+            ? d.createdAt.toDate()
+            : (d.createdAt ? new Date(d.createdAt) : null);
         if (!tgl) return;
 
         // hanya ambil hari ini
@@ -341,9 +343,9 @@ window.exportCSV = function () {
     let csv = "Waktu,Kasir,Item,Total\n";
 
     semuaData.forEach(d => {
-        const waktu = d.waktu?.toDate
-            ? d.waktu.toDate().toLocaleString("id-ID")
-            : "-";
+        const waktu = d.createdAt?.toDate
+            ? d.createdAt.toDate().toLocaleString("id-ID")
+            : d.waktu || "-";
 
         const items = (d.items || [])
             .map(i => `${i.nama}(${i.qty})`)
@@ -378,14 +380,14 @@ window.setActiveButton = function (el) {
 };
 
 function loadByRange(startDate, endDate) {
-    
+
     // 🔥 matikan listener lama
     if (unsubscribe) unsubscribe();
 
     const q = query(
         collection(db, "transaksi"),
-        where("waktu", ">=", startDate),
-        where("waktu", "<", endDate) // 🔥 ganti <= jadi <
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
     );
 
     unsubscribe = onSnapshot(q, (snapshot) => {

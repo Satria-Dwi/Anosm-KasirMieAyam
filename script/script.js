@@ -231,7 +231,7 @@ async function prosesBayar() {
     const kembali = bayar - total;
     
     const now = new Date();
-    
+
     const data = {
         items: [...cart],
         total,
@@ -242,7 +242,8 @@ async function prosesBayar() {
         waktu: new Date().toLocaleString("id-ID", {
             timeZone: "Asia/Jakarta"
         }),
-        waktu_raw: now.toISOString() // buat sorting / laporan
+        waktu_raw: now.toISOString(), // buat sorting / laporan
+        createdAt: now // 🔥 penting: untuk query & sorting
     };
 
     // 🔥 FORMAT STRUK UNTUK PRINTER
